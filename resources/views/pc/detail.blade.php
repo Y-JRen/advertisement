@@ -82,12 +82,13 @@
     @verbatim
     <script>
     $(function(){
+        var $grid = $('.grid').masonry({
+            itemSelector: '.grid-item',
+        });
         setInterval(function () {
-            var $grid = $('.grid').masonry({
-                itemSelector: '.grid-item',
-            });
+            $grid.masonry('layout');
         },1000);
-        
+
         $('body').on('click', '.send', function () {
             var email = $('#email').val();
             ajax.email_to_friend({email:email},function(res){
