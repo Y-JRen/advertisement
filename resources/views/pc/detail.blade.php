@@ -1,6 +1,7 @@
 @extends('pc.layout.app')
 
 @section('content')
+    <script src="{{asset('/js/home/masonry.pkgd.min.js')}}"></script>
     <style>
 
     </style>
@@ -36,12 +37,18 @@
                 @endforeach
             </div>
             <div id='u_list' class="col-sm-4 col-md-5">
+                <div class="grid">
                 <!--list-->
                 @foreach ($detail['media'] as $media)
                     @if ($media->media_type === 'image')
-                        <div class="col-md-6 col-xs-12 " style="padding-bottom: 10px"><img data-preview-src="" data-preview-group="1"  style="width:100%" src="{{$media->media_url}}"/></div>
+                        <div class="grid-item col-md-6 col-xs-12" style="margin-bottom: 10px">
+                        {{--<div class="col-md-6 col-xs-12 " style="padding-bottom: 10px">--}}
+                            <img class="img-item" data-preview-src="" data-preview-group="1"  style="width:100%" src="{{$media->media_url}}"/>
+                        {{--</div>--}}
+                        </div>
                     @endif
                 @endforeach
+                </div>
             </div>
         </div>
         <div>
@@ -75,16 +82,26 @@
     @verbatim
     <script>
     $(function(){
+        setInterval(function () {
+            var $grid = $('.grid').masonry({
+                itemSelector: '.grid-item',
+            });
+        },1000);
+        
         $('body').on('click', '.send', function () {
             var email = $('#email').val();
-            Ajax.email_to_friend({email:email},function(res){
+            ajax.email_to_friend({email:email},function(res){
                 if(res.code != 1){
                     alert(res.msg)
                 }
             })
-            $('#myModal').modal('hide');
+            $('#mymodal').modal('hide');
         })
+
     })
+
+
+
     </script>
     @endverbatim
 @endsection
